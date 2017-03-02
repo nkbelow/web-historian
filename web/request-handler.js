@@ -23,7 +23,12 @@ var actions = {
     httpHelper.getData(request, function(data) {
       archive.isUrlInList(data, function(isThere) {
         if (!isThere) {
-          archive.addUrlToList(data);
+          archive.addUrlToList(data, function () {
+            httpHelper.buildResponse(response, paths['/loading.html']);
+          });
+        } else {
+          // We should redirect to where resource is, for now, we redirect back to index.html
+          httpHelper.buildResponse(response, paths['/']);
         }
       });
     });
