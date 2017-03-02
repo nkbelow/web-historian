@@ -12,10 +12,6 @@ var paths = {
 var actions = {
   'GET': function (request, response) {
     // send a response back
-    // archive.isUrlInList();
-    archive.readListOfUrls(function(content) {
-      console.log(content);
-    });
     if (paths[request.url]) {
       httpHelper.buildResponse(response, paths[request.url]); 
     } else {

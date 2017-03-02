@@ -33,11 +33,6 @@ exports.readListOfUrls = function(callback) {
   });
 };
 
-exports.processUrls = function(content, array) {
-  var urls = content.split('\n');
-  array = urls;
-};
-
 exports.isUrlInList = function(url, callback) {
   exports.readListOfUrls(function(content) {
     for (var i = 0; i < content.length; i++) {
@@ -50,6 +45,7 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
+  fs.appendFile(exports.paths.list, url + '\n', callback);
 };
 
 exports.isUrlArchived = function(url, callback) {
