@@ -38,6 +38,7 @@ exports.isUrlInList = function(url, callback) {
     for (var i = 0; i < content.length; i++) {
       if (url === content[i]) {
         callback(true);
+        return;
       }
     }
     callback(false);
