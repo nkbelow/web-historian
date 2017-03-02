@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var http = require('http');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -60,4 +61,26 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
+  //take array of urls we assume array only include urls that don't exist
+  //iterate through array
+  for (var i = 0; i < urls.length; i++) {
+    http.get('http://' + urls[i], function(response) {
+      var data = '';
+      var url = urls[i];
+      console.log(url);
+      response.on('data', function(chunk) {
+        data += chunk;
+      });
+      response.on('end', function() {
+        console.log('URL:', url);
+        fs.writeFile(exports.paths.archivedSites + '/' + urls[i], data, 'utf-8', function(err) {
+          if (err) {
+            throw err;
+          }
+        });
+      });
+    });
+  }
+  //for each item call http.get 
+  //store returned data in archives/sites with file name as url
 };

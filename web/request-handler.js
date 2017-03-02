@@ -24,7 +24,8 @@ var actions = {
       archive.isUrlInList(data, function(isThere) {
         if (!isThere) {
           archive.addUrlToList(data, function () {
-            httpHelper.buildResponse(response, paths['/loading.html']);
+            archive.downloadUrls([data]);
+            httpHelper.buildResponse(response, paths['/loading.html'], function() {}, 302);
           });
         } else {
           // We should redirect to where resource is, for now, we redirect back to index.html
