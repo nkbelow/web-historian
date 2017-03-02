@@ -28,7 +28,6 @@ exports.initialize = function(pathsObj) {
 exports.readListOfUrls = function(callback) {
   //open archives sites.txt 
   fs.readFile(exports.paths.list, 'utf-8', function(err, content) {
-    console.log(content);
     var split = content.split('\n');
     callback(split);
   });
@@ -40,17 +39,14 @@ exports.processUrls = function(content, array) {
 };
 
 exports.isUrlInList = function(url, callback) {
-  //call readlistOfUrls to get list
-  var list;
   exports.readListOfUrls(function(content) {
-    console.log(content);
-    exports.processUrls(content, list); 
-  }); 
-  console.log('list', list);
-  //iterate through returned array
-  //if found 
-    //return true / invoke callback
-  //else return false
+    for (var i = 0; i < content.length; i++) {
+      if (url === content[i]) {
+        callback(true);
+      }
+    }
+    callback(false);
+  });
 };
 
 exports.addUrlToList = function(url, callback) {
