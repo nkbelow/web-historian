@@ -6,7 +6,6 @@ var httpHelper = require('./http-helpers');
 var paths = {
   '/': archive.paths.siteAssets + '/index.html',
   '/styles.css': archive.paths.siteAssets + '/styles.css',
-  '/favicon.ico': null,
   '/loading.html': archive.paths.siteAssets + '/loading.html'
 };
 
@@ -15,6 +14,8 @@ var actions = {
     // send a response back
     if (paths[request.url]) {
       httpHelper.buildResponse(response, paths[request.url]); 
+    } else {
+      httpHelper.buildResponse(response, null, function() {}, 404);
     }
   },
   'POST': function(request, response) {
@@ -32,6 +33,6 @@ exports.handleRequest = function (req, res) {
     actions[req.method](req, res);
   } else {
     // send response with 404 status
-    httpHelper.buildResponse(res, function() {}, 404);
+    httpHelper.buildResponse(res, null, function() {}, 404);
   }
 };
