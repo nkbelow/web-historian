@@ -20,6 +20,16 @@ var actions = {
   },
   'POST': function(request, response) {
     // Add data to server
+    httpHelper.getData(request, function(data) {
+      console.log(data);
+      archive.isUrlInList(data, function(isThere) {
+        console.log(isThere);
+        if (!isThere) {
+          console.log(data);
+          archive.addUrlToList(data);
+        }
+      });
+    });
     // And send response back
   },
   'OPTIONS': function(request, response) {

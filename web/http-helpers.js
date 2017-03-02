@@ -24,16 +24,24 @@ exports.serveAssets = function(res, asset, callback) {
 };
 
 exports.buildResponse = function(response, asset, callback, statusCode) {
-
   statusCode = statusCode || 200;
   response.writeHead(statusCode, exports.headers);
-
   if (asset) {
     exports.serveAssets(response, asset, callback);
   } else {
     response.end();
   }
+};
 
+exports.getData = function(request, callback) {
+  var data = '';
+  request.on('data', function(chunk) {
+    data += chunk;
+  });
+  request.on('end', function() {
+    data = data.slice(4);
+    callback(data);
+  });
 };
 
 // As you progress, keep thinking about what helper functions you can put here!
