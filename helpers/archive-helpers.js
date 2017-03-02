@@ -64,16 +64,15 @@ exports.downloadUrls = function(urls) {
   //take array of urls we assume array only include urls that don't exist
   //iterate through array
   for (var i = 0; i < urls.length; i++) {
+    //for each item call http.get 
     http.get('http://' + urls[i], function(response) {
       var data = '';
-      var url = urls[i];
-      console.log(url);
       response.on('data', function(chunk) {
         data += chunk;
       });
       response.on('end', function() {
-        console.log('URL:', url);
-        fs.writeFile(exports.paths.archivedSites + '/' + urls[i], data, 'utf-8', function(err) {
+        //store returned data in archives/sites with file name as url
+        fs.writeFile(exports.paths.archivedSites + '/' + response.socket._host, data, 'utf-8', function(err) {
           if (err) {
             throw err;
           }
@@ -81,6 +80,4 @@ exports.downloadUrls = function(urls) {
       });
     });
   }
-  //for each item call http.get 
-  //store returned data in archives/sites with file name as url
 };
