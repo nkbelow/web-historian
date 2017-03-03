@@ -13,9 +13,18 @@ var actions = {
   'GET': function (request, response) {
     // send a response back
     if (paths[request.url]) {
+      console.log('passed into here');
       httpHelper.buildResponse(response, paths[request.url]); 
     } else {
-      httpHelper.buildResponse(response, null, function() {}, 404);
+      archive.isUrlArchived(request.url.slice(1), function(isUrlArchived) {
+        console.log(request.url);
+        console.log(archive.paths.archivedSites + request.url);
+        if (isUrlArchived) {
+          httpHelper.buildResponse(response, archive.paths.archivedSites + request.url);
+        } else {
+          httpHelper.buildResponse(response, null, function() { }, 404);
+        }
+      });
     }
   },
   'POST': function(request, response) {
@@ -29,7 +38,8 @@ var actions = {
           });
         } else {
           // We should redirect to where resource is, for now, we redirect back to index.html
-          httpHelper.buildResponse(response, paths['/']);
+          console.log(data);
+          httpHelper.buildResponse(response, archive.paths.archivedSites + '/' + data);
         }
       });
     });

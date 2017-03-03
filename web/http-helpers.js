@@ -17,6 +17,7 @@ exports.serveAssets = function(res, asset, callback) {
   // css, or anything that doesn't change often.)
   fs.readFile(asset, 'utf-8', function (err, html) {
     if (err) { throw err; }
+    console.log('this is the asset', asset);
     res.write(html);
     res.end();
     console.log('Sent!');
